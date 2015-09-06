@@ -1,0 +1,40 @@
+﻿<html>
+<head>
+    <title>Countries & Capitals</title>
+    <!-- build:css ./_assets/combined.css -->
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="../bower_components/angular-bootstrap/ui-bootstrap-csp.css" rel="stylesheet" />
+    <link href="./components/cac-app.css" rel="stylesheet" />
+    <!-- endbuild-->
+</head>
+<body ng-app="cacApp" ng-class="{loading: isLoading}">
+    <!--for bootstrap-->
+    <div class="container" style="min-height:100%; margin: auto;">
+        <div class="row text-center mainheader">
+            Countries & Capitals
+        </div>
+        <div class="animate-view-container">
+            <div ng-view class="animate-view">
+                <!--Dynamic partial views here-->
+            </div>
+        </div>
+        <div class="row text-center" ng-controller="ButtonsController">
+            <a href="#/countries" ng-hide="hideButton('/countries')" class="btn btn-primary" role="button">Browse Countries</a>
+            <a href="#/home" ng-hide="hideButton('/home')" class="btn btn-primary" role="button">Home</a>
+        </div>
+    </div>
+    <!-- build:js ./_assets/combined.js -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-route/angular-route.js"></script>
+    <script src="../bower_components/angular-animate/angular-animate.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="./cac-app.js"></script>
+    <script src="./cac-app-views.js"></script>
+    <script src="./home/home.js"></script>
+    <script src="./countries/countries.js"></script>
+    <script src="./countrydetails/countrydetails.js"></script>
+    <!-- endbuild -->
+</body>
+</html>
