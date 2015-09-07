@@ -1,2 +1,4 @@
 ﻿"use strict";
-controllersModule.controller('CountryDetailsController', []);
+controllersModule.controller('CountryDetailsController', function ($scope, capitalPop, neighbours) {
+
+});
