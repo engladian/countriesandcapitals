@@ -16,13 +16,16 @@ controllersModule.config(['$routeProvider', function ($routeProvider) {
                  }                                          
              }
          })
-        .when('/countries/:country/capitol/:capitol', {
-            templateUrl: 'countrydetails.html',
+        .when('/countries/:country/:capital', {
+            templateUrl: 'countrydetails/countrydetails.html',
             controller: 'CountryDetailsController',
             resolve: {
                 capitalPop: function (countriesService, $route) {
                     var capital = $route.current.params.capital;
                     var countryCode = $route.current.params.country;
+
+                    console.log(capital + "-" + countryCode);
+
                     return countriesService.getCapitalPopulation(countryCode, capital);
                 },
                 neighbours: function (countriesService, $route) {
@@ -39,31 +42,33 @@ controllersModule.factory('countriesService', function ($http) {
     return {
         getCountries: function () {
             var url = 'http://api.geonames.org/countryInfoJSON?username=engladiannz';
-            var promise = $http.get(url);
+            var promise = $http.get(url, { cache: true });
             promise.success(function (data) {
                 return data;
             });
             return promise;
         },
         getCapitalPopulation: function (countryCode, capital) {
-            var country = countryCode;
-            var name_equals = capital.replace('_',' ');
-            var isNameRequired = 'true';
-            var url = 'http://api.geonames.org/search?country='
-                       + country + '&name_equals=' + name_equals
-                       + '&isNameRequired=' + isNameRequired
-                       + '&username=englaldiannz';
-            var promise = $http.get(url);
+            var url = 'http://api.geonames.org/searchJSON?country='
+                       + countryCode + '&q=' + capital.replace('_', ' ')
+                       + '&maxRows=1&name_equals=' + capital.replace('_', ' ')
+                       + '&isNameRequired=true&style=LONG&username=engladiannz';
+
+            console.log(url);
+
+            var promise = $http.get(url,{ cache: true});
             promise.success(function (data) {
                 return data;
             });
             return promise;
         },
         getNeighbours: function (countryCode) {
-            var country = countryCode;
             var url = 'http://api.geonames.org/neighboursJSON?country=' 
-                       + country + '&username=englaldiannz';
-            var promise = $http.get(url);
+                       + countryCode + '&username=engladiannz';
+
+            console.log(url);
+
+            var promise = $http.get(url, { cache: true });
             promise.success(function (data) {
                 return data;
             });

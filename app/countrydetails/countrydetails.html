@@ -2,7 +2,17 @@
     <div class="col-sm-6 col-sm-offset-3">
 
 
-        Detail goes here
+        {{countryDetails.capital}}
+        {{capitalPopulation}}
+        {{countryDetails.countryCode}}
+        {{countryDetails.countryName}}
+        {{countryDetails.population}}
+        {{countryDetails.areaInSqKm}}
+
+        <div ng-repeat="neighbour in neighbours">
+            {{neighbour.countryName}}
+        </div>
+
 
     </div>
 </div>
