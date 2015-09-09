@@ -1,24 +1,24 @@
 ﻿"use strict";
 var appModule = angular.module('cacApp', ['cacApp.Controllers',   //MUST HAVE VIEWS MODULE AS DEPENDENCY HERE
-                                           'ngRoute',
-                                           'ngAnimate']);
+                                          'ngRoute',
+                                          'ngAnimate']);
 
-appModule.controller('ButtonsController', function ($scope, $location) {
+appModule.controller('ButtonsController', ['$scope', '$location', function ($scope, $location) {
     $scope.hideButton = function (route) {
         return route === $location.path();
     };
-});
+}]);
 
-appModule.run(function ($rootScope, $timeout) {
+appModule.run(['$rootScope', '$timeout', function ($rootScope, $timeout) {
     $rootScope.$on('$routeChangeStart', function () {
         $rootScope.isLoading = true;
     });
     $rootScope.$on('$routeChangeSuccess', function () {
         $timeout(function () {
             $rootScope.isLoading = false;
-        }, 500); //Half second wait
+        }, 200); //short wait
     });
-});
+}]);
 
 
 

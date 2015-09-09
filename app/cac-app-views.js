@@ -11,34 +11,31 @@ controllersModule.config(['$routeProvider', function ($routeProvider) {
              templateUrl: 'countries/countries.html',
              controller: 'CountriesController',
              resolve: {           
-                 countries: function (countriesService) {
+                 countries: ['countriesService', function (countriesService) {
                      return countriesService.getCountries();
-                 }                                          
+                 }]                                          
              }
          })
         .when('/countries/:country/:capital', {
             templateUrl: 'countrydetails/countrydetails.html',
             controller: 'CountryDetailsController',
             resolve: {
-                capitalPop: function (countriesService, $route) {
+                capitalPop: ['countriesService', '$route', function (countriesService, $route) {
                     var capital = $route.current.params.capital;
                     var countryCode = $route.current.params.country;
-
-                    console.log(capital + "-" + countryCode);
-
                     return countriesService.getCapitalPopulation(countryCode, capital);
-                },
-                neighbours: function (countriesService, $route) {
+                }],
+                neighbours: ['countriesService', '$route', function (countriesService, $route) {
                     var countryCode = $route.current.params.country;
                     return countriesService.getNeighbours(countryCode);
-                }
+                }]
             }
         })
         .otherwise('/home');
 }]);
 
 //Shared factories
-controllersModule.factory('countriesService', function ($http) {
+controllersModule.factory('countriesService', ['$http', function ($http) {
     return {
         getCountries: function () {
             var url = 'http://api.geonames.org/countryInfoJSON?username=engladiannz';
@@ -53,9 +50,6 @@ controllersModule.factory('countriesService', function ($http) {
                        + countryCode + '&q=' + capital.replace('_', ' ')
                        + '&maxRows=1&name_equals=' + capital.replace('_', ' ')
                        + '&isNameRequired=true&style=LONG&username=engladiannz';
-
-            console.log(url);
-
             var promise = $http.get(url,{ cache: true});
             promise.success(function (data) {
                 return data;
@@ -65,9 +59,6 @@ controllersModule.factory('countriesService', function ($http) {
         getNeighbours: function (countryCode) {
             var url = 'http://api.geonames.org/neighboursJSON?country=' 
                        + countryCode + '&username=engladiannz';
-
-            console.log(url);
-
             var promise = $http.get(url, { cache: true });
             promise.success(function (data) {
                 return data;
@@ -75,4 +66,4 @@ controllersModule.factory('countriesService', function ($http) {
             return promise;
         }
     }
-});
+}]);
