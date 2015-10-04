@@ -28,6 +28,9 @@ controllersModule.config(['$routeProvider', function ($routeProvider) {
                 neighbours: ['countriesService', '$route', function (countriesService, $route) {
                     var countryCode = $route.current.params.country;
                     return countriesService.getNeighbours(countryCode);
+                }],
+                pickedCountryCode: ['$route', function($route) {
+                    return $route.current.params.country;
                 }]
             }
         })
